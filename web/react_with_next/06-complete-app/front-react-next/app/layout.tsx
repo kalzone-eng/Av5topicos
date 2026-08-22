@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+// importando o componente Menu
 import Menu from "./components/Menu";
 
 export const metadata: Metadata = {
@@ -13,13 +14,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html
       lang="en"
       className={"h-full antialiased"}
     >
+
       <body className="min-h-full flex flex-col">
         
+        {/* o componente menu será 
+        usado em todas as páginas */}
         <Menu />
 
         {children}

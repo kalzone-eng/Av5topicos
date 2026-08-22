@@ -1,3 +1,4 @@
+// trazendo o componente que tabela de pessoas
 import TabelaDePessoas from '../components/TabelaDePessoas';
 
 export default function Listar_Pessoas() {
@@ -10,7 +11,7 @@ export default function Listar_Pessoas() {
         >Pessoas</h1>
 
         <TabelaDePessoas />
-          
+
       </main>
     </div>
   );

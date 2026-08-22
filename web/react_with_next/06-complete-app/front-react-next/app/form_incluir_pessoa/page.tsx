@@ -15,60 +15,52 @@ export default function FormIncluirPessoa() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
-
   const [token, setToken] = useState<string | null>(null);
 
+  const router = useRouter();
+  
+  // obtém da variável de ambiente o endereço do backend (API)
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
   useEffect(() => {
-    // This executes safely only on the browser client
+    // tenta buscar a token
     const savedToken = localStorage.getItem("token");
+    // se não houver token
     if (!savedToken) {
-      router.push("/form_login");
-      return;
+      // encaminha para o login
+      router.replace("/form_login");
     }
+    // persiste o token
     setToken(savedToken);
+  
   }, [router]);
 
 
   useEffect(() => {
+    // se não houver mensagem, encerra
     if (!message) return;
 
+    // exibe a mensagem por 5 segundos
     const timer = setTimeout(() => {
       setMessage("");
     }, 5000);
-
     return () => clearTimeout(timer);
-  }, [message]);
 
+  }, [message]);
 
   useEffect(() => {
     if (!error) return;
-
     const timer = setTimeout(() => {
       setError("");
     }, 5000);
-
     return () => clearTimeout(timer);
   }, [error]);
-
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-  /*
-    if (!token) {
-      // No token found? Bounce the visitor back to login
-      router.push("/login");
-      return;
-    }
-  */
 
   const enviar = async (e?: FormEvent<HTMLFormElement>) => {
     e?.preventDefault();
 
     setMessage("");
     setError("");
-
-    //console.log("Submit fired");
-    //console.log(apiUrl);
 
     setLoading(true);
 
@@ -128,6 +120,10 @@ export default function FormIncluirPessoa() {
   }
 }
 
+// se não houver token, encerra a página
+if (!token) {
+  return null;
+}
 
 
 return (
@@ -185,7 +181,7 @@ return (
 
         <button type="submit"
           disabled={loading}
-          className="bg-blue-600 text-white px-4 py-2 rounded disabled:opacity-50"
+          className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? "Registering..." : "Cadastrar"}
         </button>
