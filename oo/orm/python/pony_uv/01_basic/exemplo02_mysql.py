@@ -47,7 +47,7 @@ with db_session:
 '''
 Exercícios:
 
-1) Conecte-se ao banco de dados MySql com o DBeaver para ver se
+1) Conecte-se a um banco de dados MySql com o DBeaver para ver se
 a tabela foi criada e os dados estão lá
 
 2) Descomente a linha 22 e execute novamente o programa, para ver

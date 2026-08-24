@@ -1,18 +1,22 @@
-# pony com sqlite e mysql
+# Pony com sqlite e mysql
 
-## Execução
+## Exemplo 01
 
-Para rodar os programas, utilize:
+Execução: 
 
 ```uv run exemplo01_sqlite.py```
 
-e
+Ao executar esse arquivo, será criado (se já não existir) um arquivo do SQLite chamado **pessoas.db**.
+
+## Exemplo 02
+
+Execução:
 
 ```uv run --env-file .env exemplo02_mysql.py```
 
-# Variáveis de ambiente (exemplo02)
+### Variáveis de ambiente (exemplo02)
 
-Deve haver um arquivo chamado  ".env" com estas variáveis (modifique os valores conforme sua necessidade de conexão a banco de dados):
+Para se conectar ao Mysql, é preciso usar variáveis de ambiente, para que a senha e outras informações não fiquem armazenadas dentro do programa. Em vez de definir variáveis de ambiente no terminal, é possível criar um arquivo chamado ".env" com as variáveis definidas. Modifique os valores conforme sua necessidade de conexão a banco de dados:
 
 ```
 DATABASE_NAME=ifcblu2026
@@ -22,6 +26,7 @@ DATABASE_PASSWORD=root
 DATABASE_PORT=3306
 ```
 
-Lembre-se de:
-a) alterar os valores das variáveis de ambiente dentro do arquivo .env
-b) adicionar ao .gitignore o arquivo .env, para que esse arquivo não seja enviado ao repositório (ele contém informações sensíveis)
+Portanto, lembre-se de:
+<ol type="A">
+<li>Alterar os valores das variáveis de ambiente dentro do arquivo .env</li>
+<li>Adicionar ao .gitignore o arquivo .env, para que esse arquivo NÃO SEJA ENVIADO ao repositório (ele contém informações sensíveis)</li>

@@ -43,7 +43,7 @@ Exercícios:
 https://docs.ponyorm.org/entities.html#attribute-data-types
 
 2) Pergunte em alguma IA porque o comando "print(jo.id)" funciona neste código,
-já que não existe o campo "id" declarado na calsse
+já que não existe o campo "id" declarado na classe
 
 3) Descomente a linha 22 e execute novamente o programa, para ver
 os códigos SQL que estão sendo executados
