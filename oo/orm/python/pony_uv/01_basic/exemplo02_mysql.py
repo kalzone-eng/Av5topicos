@@ -50,7 +50,7 @@ Exercícios:
 1) Conecte-se a um banco de dados MySql com o DBeaver para ver se
 a tabela foi criada e os dados estão lá
 
-2) Descomente a linha 22 e execute novamente o programa, para ver
+2) Descomente a linha 30 e execute novamente o programa, para ver
 os códigos SQL que estão sendo executados
 
 '''
