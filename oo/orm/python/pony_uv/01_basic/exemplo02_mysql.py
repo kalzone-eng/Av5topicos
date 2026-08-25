@@ -8,6 +8,7 @@ db = Database()
 # definição da classe: 
 # é preciso herdar da classe Entity
 class Pessoa(db.Entity):
+    _table_ = "tabela_pessoa_do_hylson"
     nome = Required(str)   # atributo string obrigatório
     email = Required(str, 100)  # atributo string obrigatório com máximo de 100 caracteres
     telefone = Optional(str, nullable=True) # atributo opcional 
