@@ -9,8 +9,8 @@ type User = {
 };
 
 export default function UsersPage() {
+  
   const [users, setUsers] = useState<User[]>([]);
-
   const data: User[] =
     [
       {
