@@ -21,7 +21,7 @@ class Pessoa(Base):
 # ler o arquivo .env
 load_dotenv()
 
-# variáveis de ambiente
+# buscando as variáveis de ambiente
 MYSQL_USER = os.getenv("MYSQL_USER")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD")
 MYSQL_HOST = os.getenv("MYSQL_HOST")
@@ -49,3 +49,5 @@ with Session(engine) as session:
         
     # confirmar a inserção no banco de dados
     session.commit()
+
+    print("Tabela criada (se não havia) e pessoa inserida no banco de dados")

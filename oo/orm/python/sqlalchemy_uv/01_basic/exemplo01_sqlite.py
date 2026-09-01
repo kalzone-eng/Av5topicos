@@ -35,3 +35,5 @@ with Session(engine) as session:
         
     # confirmar a inserção no banco de dados
     session.commit()
+
+    print("Banco de dados criado (se não existia), tabela criada (se não havia) e pessoa inserida no banco de dados")
