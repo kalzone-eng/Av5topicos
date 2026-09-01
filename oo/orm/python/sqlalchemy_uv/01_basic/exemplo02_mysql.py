@@ -1,6 +1,7 @@
 # alguns imports
 from sqlalchemy import create_engine, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
+from typing import Optional
 import os
 from dotenv import load_dotenv
 
@@ -16,7 +17,7 @@ class Pessoa(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     nome: Mapped[str] = mapped_column(String(255))
     email: Mapped[str] = mapped_column(String(255))
-    telefone: Mapped[str] = mapped_column(String(20))
+    telefone: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
 
 # ler o arquivo .env
 load_dotenv()

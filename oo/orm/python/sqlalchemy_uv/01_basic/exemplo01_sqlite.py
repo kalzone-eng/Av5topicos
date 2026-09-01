@@ -1,6 +1,7 @@
 # alguns imports
 from sqlalchemy import create_engine, String
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, Session
+from typing import Optional
 
 # classe "base"
 class Base(DeclarativeBase):
@@ -14,7 +15,7 @@ class Pessoa(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     nome: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
-    telefone: Mapped[str] = mapped_column(String)
+    telefone: Mapped[Optional[str]] = mapped_column(String, nullable=True)
 
 # definição do banco de dados
 engine = create_engine("sqlite:///pessoas.db")
