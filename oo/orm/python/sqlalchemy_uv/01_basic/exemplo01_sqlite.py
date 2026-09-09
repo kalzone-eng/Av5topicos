@@ -13,9 +13,9 @@ class Pessoa(Base):
     __tablename__ = "pessoas"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    nome: Mapped[str] = mapped_column(String)
-    email: Mapped[str] = mapped_column(String)
-    telefone: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    nome: Mapped[str] = mapped_column(String(250))
+    email: Mapped[str] = mapped_column(String(250))
+    telefone: Mapped[Optional[str]] = mapped_column(String(250), nullable=True)
 
 # definição do banco de dados
 engine = create_engine("sqlite:///pessoas.db")
