@@ -13,8 +13,8 @@ class Pessoa(Base):
     __tablename__ = "tabela_pessoa"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    nome: Mapped[str] = mapped_column(String)
-    email: Mapped[str] = mapped_column(String)
+    nome: Mapped[str] = mapped_column(String(250))
+    email: Mapped[str] = mapped_column(String(250))
 
     # "lista reversa" celulares, montado a partir do atributo "pessoa" da classe Celular
     celulares: Mapped[List["Celular"]] = relationship(back_populates="pessoa")
@@ -22,9 +22,9 @@ class Pessoa(Base):
 class Celular(Base):
     __tablename__ = "celular"
     id: Mapped[int] = mapped_column(primary_key=True)
-    numero: Mapped[str] = mapped_column(String)
-    marca: Mapped[str] = mapped_column(String)
-    operadora: Mapped[str] = mapped_column(String)
+    numero: Mapped[str] = mapped_column(String(100))
+    marca: Mapped[str] = mapped_column(String(100))
+    operadora: Mapped[str] = mapped_column(String(100))
 
     # chave estrangeira :-)
     pessoa_id: Mapped[int] = mapped_column(ForeignKey("tabela_pessoa.id"))
