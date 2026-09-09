@@ -10,13 +10,13 @@ class Base(DeclarativeBase):
 # classe pessoa, que herda da "base"
 class Pessoa(Base):
     # nome da tabela a ser criada no banco de dados
-    __tablename__ = "pessoa"
+    __tablename__ = "tabela_pessoa"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     nome: Mapped[str] = mapped_column(String)
     email: Mapped[str] = mapped_column(String)
 
-    # atributo "lista reversa"
+    # "lista reversa" celulares, montado a partir do atributo "pessoa" da classe Celular
     celulares: Mapped[List["Celular"]] = relationship(back_populates="pessoa")
 
 class Celular(Base):
@@ -27,8 +27,10 @@ class Celular(Base):
     operadora: Mapped[str] = mapped_column(String)
 
     # chave estrangeira :-)
-    pessoa_id: Mapped[int] = mapped_column(ForeignKey("pessoa.id"))
+    pessoa_id: Mapped[int] = mapped_column(ForeignKey("tabela_pessoa.id"))
     # atributo para acesso ao objeto inteiro :-)
+    # esse atributo está "ligado" ao atributo "celulares", pois
+    # é usado para "popular" a lista de celulares da classe Pessoa
     pessoa: Mapped["Pessoa"] = relationship(back_populates="celulares")    
 
 # definição do banco de dados
@@ -44,7 +46,6 @@ with Session(engine) as session:
     p = Pessoa(nome="João da Silva", 
                email="joao@email.com")
     
-
     # criar um celular
     c1 = Celular(numero="912345678", marca="Samsung", 
                  operadora="Vivo")
