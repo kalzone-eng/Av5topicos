@@ -78,43 +78,33 @@ export default function FormIncluirPessoa() {
       switch (resposta.status) {
         case 200:
         case 201:
-          setMessage("Person successfully registered!");
+          setMessage("Pessoa cadastrada com sucesso!");
           // limpa os campos
-          setNome("");
-          setEmail("");
-          setTelefone("");
-          setLogin("");
-          setSenha("");
+          setNome(""); setEmail(""); setTelefone("");
+          setLogin(""); setSenha("");
           break;
-
         case 400:
           setError("Invalid data.");
           break;
-
         case 401:
-          setError("Your session has expired. Please log in again.");
+          setError("A sessão expirou. Por favor, faça login novamente!");
           // Optional:
           // localStorage.removeItem("token");
           // router.push("/login");
           break;
-
         case 403:
-          setError("You do not have permission to perform this action.");
+          setError("Você não tem permissão para realizar esta ação.");
           break;
-
         case 500:
-          setError("Internal server error.");
+          setError("Erro interno no servidor backend.");
           break;
-
         default:
           const resultado = await resposta.json();
-          setError(resultado.message || "An unexpected error occurred.");
+          setError(resultado.message || "Um erro inesperado ocorreu.");
       }
-
   } catch (error) {
     console.log('error', error);
     setError("Não foi possível conectar-se ao backend");
-
   } finally {
     setLoading(false);
   }
@@ -183,7 +173,7 @@ return (
           disabled={loading}
           className="cursor-pointer bg-blue-600 text-white px-4 py-2 rounded disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loading ? "Registering..." : "Cadastrar"}
+          {loading ? "Cadastrando..." : "Cadastrar"}
         </button>
 
       </form>
