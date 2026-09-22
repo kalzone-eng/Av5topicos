@@ -8,8 +8,8 @@ import datetime
 app = Flask(__name__)
 CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
 
-GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
-JWT_SECRET = "YOUR_SUPER_SECRET_JWT_KEY"
+GOOGLE_CLIENT_ID = "481179333282-08ggikhgdrn7rjkt5elrf37d28sfe4jk.apps.googleusercontent.com"
+JWT_SECRET = "a-frase-secreta-que-ninguem-pode-saber-IFC-Blumenau-2026-HEYHEY"
 
 @app.route("/api/auth/google", methods=["POST"])
 def google_auth():
