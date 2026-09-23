@@ -118,24 +118,3 @@ with Session(engine) as session:
   print("Ingredientes da receita:")
   for item in r1.ingredientes:
     print(item.ingrediente.nome, item.quantidade, item.unidade)
-
-"""
-
-Exercício: complete o cadastro da receita abaixo:
-  
-  r2 = Receita(nome = "Tapioca com ovo e leite (crepioca)", tempo_preparo = 10,
-  
-        modo_preparo = '''
-a) Em uma tigela, misture bastante a tapioca com o leite; 
-b) adicione os ovos, o açúcar e o sal e mexa bem; 
-c) deixe a massa descansar por 10 minutos; 
-d) aqueça uma frigideira antiaderente; 
-e) despeje e espalhe uma concha da massa na frigideira; 
-f) cozinhe por 3 minutos; 
-g) vire a tapioca e cozinhe mais 2 minutos; 
-h) retire da frigideira e repita o processo 
-com o restante da massa.
-'''
-     )
-  
-"""
