@@ -1,0 +1,20 @@
+[project]
+name = "03-receita"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Hylson", email = "hvescovi@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "pymysql>=1.2.3",
+    "sqlalchemy>=2.0.54",
+]
+
+[project.scripts]
+03-receita = "03_receita:main"
+
+[build-system]
+requires = ["uv_build>=0.12.1,<0.13.0"]
+build-backend = "uv_build"
