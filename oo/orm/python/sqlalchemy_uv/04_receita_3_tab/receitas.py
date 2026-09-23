@@ -44,7 +44,9 @@ class IngredienteNaReceita(Base):
         ForeignKey("tabela_receitas.id"), 
         primary_key=True)
 
-    # listas reversas
+    # atributos de acesso ao objeto
+    # (acima só temos o "id", nesses atributos 
+    # abaixo conseguimos ter acesso ao objeto "inteiro")
     ingrediente: Mapped["Ingrediente"] = relationship(
         back_populates="receitas")    
     receita: Mapped["Receita"] = relationship(
