@@ -4,12 +4,27 @@ from google.oauth2 import id_token
 from google.auth.transport import requests as google_requests
 import jwt
 import datetime
+import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
+CORS(
+    app,
+    origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    supports_credentials=True,
+)
 
-GOOGLE_CLIENT_ID = "481179333282-08ggikhgdrn7rjkt5elrf37d28sfe4jk.apps.googleusercontent.com"
-JWT_SECRET = "a-frase-secreta-que-ninguem-pode-saber-IFC-Blumenau-2026-HEYHEY"
+# ler o arquivo .env
+load_dotenv()
+
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
+JWT_SECRET = os.getenv("JWT_SECRET")
+
+if not GOOGLE_CLIENT_ID or not JWT_SECRET:
+    raise RuntimeError("GOOGLE_CLIENT_ID and JWT_SECRET must be configured in the backend .env file")
 
 @app.route("/api/auth/google", methods=["POST"])
 def google_auth():

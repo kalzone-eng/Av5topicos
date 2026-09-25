@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///home/friend/02-gitlab/progs/web/login/flask-google-login-frontend/pages/index.tsx"],"sourcesContent":["// pages/index.js\n\"use client\";\nimport { useRouter } from \"next/navigation\";\n\nexport default function Home() {\n  const router = useRouter();\n\n  const handleLogin = () => {\n    // Redirect to Flask backend to start Google OAuth\n    window.location.href = \"http://localhost:5000/login\";\n  };\n\n  return (\n    <main className=\"min-h-screen flex flex-col items-center justify-center\">\n      <h1 className=\"text-2xl font-bold mb-4\">Login Demo</h1>\n      <button\n        onClick={handleLogin}\n        className=\"px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600\"\n      >\n        Login with Google\n      </button>\n    </main>\n  );\n}\n"],"names":[],"mappings":"AAAA,iBAAiB;;;;;;AAEjB;AADA;;;AAGe,SAAS;IACtB,MAAM,SAAS,IAAA,wIAAS;IAExB,MAAM,cAAc;QAClB,kDAAkD;QAClD,OAAO,QAAQ,CAAC,IAAI,GAAG;IACzB;IAEA,qBACE,qKAAC;QAAK,WAAU;;0BACd,qKAAC;gBAAG,WAAU;0BAA0B;;;;;;0BACxC,qKAAC;gBACC,SAAS;gBACT,WAAU;0BACX;;;;;;;;;;;;AAKP","debugId":null}}]
+}

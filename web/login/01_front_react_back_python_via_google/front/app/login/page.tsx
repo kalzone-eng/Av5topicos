@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
+import Link from 'next/dist/client/link';
 
 interface UserProfile {
   email: string;
@@ -10,12 +11,26 @@ interface UserProfile {
 }
 
 export default function LoginPage() {
-
   const [user, setUser] = useState<UserProfile | null>(null);
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000';
+
+  useEffect(() => {
+    const savedToken = localStorage.getItem('token');
+    const savedUser = localStorage.getItem('user');
+
+    if (savedToken && savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+      }
+    }
+  }, []);
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/google', {
+      const response = await fetch(`${apiBaseUrl}/api/auth/google`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -29,7 +44,7 @@ export default function LoginPage() {
 
       if (response.ok) {
         localStorage.setItem('token', data.token);
-        console.log('Authenticated User:', data.user);
+        localStorage.setItem('user', JSON.stringify(data.user));
         setUser(data.user);
       } else {
         console.error('Authentication failed:', data.error);
@@ -44,18 +59,20 @@ export default function LoginPage() {
   };
 
   const handleLogout = () => {
-    // Limpar o token e o estado do utilizador
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setUser(null);
   };
 
   return (
     <div style={{ display: 'grid', placeItems: 'center', minHeight: '100vh' }}>
-      <h1>Sign in to App</h1>
+      <Link href="/" style={{ position: 'absolute', top: '20px', left: '20px', textDecoration: 'none', color: '#1a202c' }}>
+        &larr; Voltar à Página Inicial
+      </Link>
 
-{user ? (
-        // --- VISÃO APÓS LOGIN (Sinalização) ---
+      {user ? (
         <div style={{ textAlign: 'center' }}>
+          <h1>Você está LOGADO!</h1>
           <img
             src={user.picture}
             alt={user.name}
@@ -80,20 +97,14 @@ export default function LoginPage() {
           </button>
         </div>
       ) : (
-        // --- VISÃO DE LOGIN ---
         <div style={{ textAlign: 'center' }}>
           <h2>Iniciar Sessão</h2>
           <GoogleLogin
             onSuccess={handleSuccess}
-            onError={() => console.error('Erro no Google Sign-In')}
+            onError={handleError}
           />
         </div>
       )}
-
-      <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={handleError}
-      />
     </div>
   );
 }

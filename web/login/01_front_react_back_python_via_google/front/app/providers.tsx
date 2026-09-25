@@ -9,6 +9,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   if (!clientId) {
     console.error('NEXT_PUBLIC_GOOGLE_CLIENT_ID is not defined.');
     return <>{children}</>;
+  } else {
+    console.log("Google client ID loaded successfully: ");
   }
 
   return (

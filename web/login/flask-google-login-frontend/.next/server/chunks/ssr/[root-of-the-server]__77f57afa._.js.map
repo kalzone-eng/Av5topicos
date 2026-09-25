@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///home/friend/02-gitlab/progs/web/login/flask-google-login-frontend/pages/auth/callback.jsx"],"sourcesContent":["// pages/auth/callback.js\n\"use client\";\nimport { useRouter, useSearchParams } from \"next/navigation\";\nimport { useEffect } from \"react\";\n\nexport default function AuthCallback() {\n  const router = useRouter();\n  const params = useSearchParams();\n\n  useEffect(() => {\n    const token = params.get(\"token\");\n    if (token) {\n      localStorage.setItem(\"jwt\", token);\n      router.push(\"/dashboard\");\n    }\n  }, [params, router]);\n\n  return <p>Signing you in...</p>;\n}\n"],"names":[],"mappings":"AAAA,yBAAyB;;;;;;AAEzB;AACA;AAFA;;;;AAIe,SAAS;IACtB,MAAM,SAAS,IAAA,wIAAS;IACxB,MAAM,SAAS,IAAA,8IAAe;IAE9B,IAAA,gHAAS,EAAC;QACR,MAAM,QAAQ,OAAO,GAAG,CAAC;QACzB,IAAI,OAAO;YACT,aAAa,OAAO,CAAC,OAAO;YAC5B,OAAO,IAAI,CAAC;QACd;IACF,GAAG;QAAC;QAAQ;KAAO;IAEnB,qBAAO,qKAAC;kBAAE;;;;;;AACZ","debugId":null}}]
+}
