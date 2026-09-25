@@ -20,6 +20,12 @@ CORS(
 # ler o arquivo .env
 load_dotenv()
 
+
+def utc_now():
+    """Return the current UTC datetime with timezone information."""
+    return datetime.datetime.now(datetime.timezone.utc)
+
+
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 JWT_SECRET = os.getenv("JWT_SECRET")
 
@@ -28,7 +34,9 @@ if not GOOGLE_CLIENT_ID or not JWT_SECRET:
 
 @app.route("/api/auth/google", methods=["POST"])
 def google_auth():
+    print("Received request for Google authentication")
     data = request.get_json()
+    print("Request data:", data)
     token = data.get("credential") # The ID Token sent from Next.js frontend
 
     if not token:
@@ -41,6 +49,7 @@ def google_auth():
             google_requests.Request(), 
             GOOGLE_CLIENT_ID
         )
+        print("Verified ID info:", id_info)
 
         # Extract user information from payload
         google_id = id_info["sub"]
@@ -58,7 +67,9 @@ def google_auth():
             {
                 "user_id": google_id,
                 "email": email,
-                "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7)
+                "name": name,
+                "picture": picture,
+                "exp": datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=7)
             },
             JWT_SECRET,
             algorithm="HS256"
