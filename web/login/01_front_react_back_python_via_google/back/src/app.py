@@ -6,6 +6,7 @@ import jwt
 import datetime
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
 app = Flask(__name__)
 CORS(
@@ -17,8 +18,14 @@ CORS(
     supports_credentials=True,
 )
 
+
+# ajuste específico para funcionar no windows, 
+# garantindo que o caminho do arquivo .env seja resolvido corretamente
+BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR / ".env")
+
 # ler o arquivo .env
-load_dotenv()
+#load_dotenv()
 
 
 def utc_now():
@@ -29,8 +36,13 @@ def utc_now():
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
 JWT_SECRET = os.getenv("JWT_SECRET")
 
+print("GOOGLE_CLIENT_ID:", GOOGLE_CLIENT_ID)
+print("JWT_SECRET loaded:", bool(JWT_SECRET))
+
 if not GOOGLE_CLIENT_ID or not JWT_SECRET:
     raise RuntimeError("GOOGLE_CLIENT_ID and JWT_SECRET must be configured in the backend .env file")
+
+
 
 @app.route("/api/auth/google", methods=["POST"])
 def google_auth():
@@ -41,6 +53,22 @@ def google_auth():
 
     if not token:
         return jsonify({"error": "Missing token"}), 400
+
+
+    # -------------------
+    # DEBUG ONLY — do not use this decoded data for authentication
+    unverified_payload = jwt.decode(
+        token,
+        options={"verify_signature": False}
+    )
+
+    print("Token audience:", unverified_payload.get("aud"))
+    print("Configured client ID:", GOOGLE_CLIENT_ID)
+    print("Token issuer:", unverified_payload.get("iss"))
+    print("Token email:", unverified_payload.get("email"))
+
+    # ---------------------
+
 
     try:
         # Verify the ID token with Google's public keys
@@ -85,9 +113,12 @@ def google_auth():
             }
         }), 200
 
-    except ValueError:
-        # Invalid token
-        return jsonify({"error": "Invalid Google token"}), 401
+    except ValueError as e:
+        print("Google token verification failed:", repr(e))
+        return jsonify({
+            "error": "Invalid Google token",
+            "details": str(e)
+        }), 401
 
 if __name__ == "__main__":
     app.run(port=5000, debug=True)

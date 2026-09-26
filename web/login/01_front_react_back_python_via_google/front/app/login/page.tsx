@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
-import Link from 'next/dist/client/link';
+import Link from 'next/link';
 
 interface UserProfile {
   email: string;
@@ -13,6 +13,7 @@ interface UserProfile {
 export default function LoginPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000';
+  console.log('API Base URL:', apiBaseUrl);
 
   useEffect(() => {
     const savedToken = localStorage.getItem('token');
@@ -29,6 +30,10 @@ export default function LoginPage() {
   }, []);
 
   const handleSuccess = async (credentialResponse: CredentialResponse) => {
+    console.log('Google response:', {
+    hasCredential: !!credentialResponse.credential,
+    credentialLength: credentialResponse.credential?.length,
+  });
     try {
       const response = await fetch(`${apiBaseUrl}/api/auth/google`, {
         method: 'POST',
@@ -42,12 +47,22 @@ export default function LoginPage() {
 
       const data = await response.json();
 
+      console.log('Authentication API response:', {
+      status: response.status,
+      ok: response.ok,
+      data,
+    });
+    
       if (response.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
         setUser(data.user);
       } else {
-        console.error('Authentication failed:', data.error);
+        console.error('Authentication failed:', {
+    status: response.status,
+    statusText: response.statusText,
+    data,
+  });
       }
     } catch (error) {
       console.error('Network or server error:', error);
