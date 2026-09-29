@@ -255,50 +255,11 @@ O objetivo do projeto é demonstrar como modelar:
 Esse padrão é muito útil em modelos de culinária, cardápios, estoque e controle de materiais.
 
 
-Um ingrediente também possui uma relação reversa com as receitas:
+Um insumo também possui uma relação reversa com as receitas e com suas associações:
 
 ```python
-receitas: Mapped[List["IngredienteNaReceita"]]
+receitas: Mapped[List["Ingrediente"]]
 ```
-
----
-
-### `IngredienteNaReceita`
-
-Representa a associação entre uma receita e um ingrediente:
-
-```python
-class IngredienteNaReceita(Base):
-    __tablename__ = "tabela_ingrediente_na_receita"
-```
-
-Possui duas chaves estrangeiras:
-
-```python
-ingrediente_id
-receita_id
-```
-
-que também formam uma **chave primária composta**.
-
-Além disso, a associação possui informações próprias:
-
-```python
-quantidade
-unidade
-```
-
-Isso é importante porque a quantidade de um ingrediente depende da receita.
-
-Por exemplo:
-
-```text
-Bolo de milho      → 3 ovos
-Bolo de chocolate  → 2 ovos
-Omelete            → 3 ovos
-```
-
-Portanto, `quantidade` não pertence à tabela `Ingrediente`. Ela pertence ao relacionamento entre ingrediente e receita.
 
 ---
 
@@ -309,22 +270,23 @@ O projeto também demonstra como criar relacionamentos bidirecionais utilizando 
 Em `Receita`:
 
 ```python
-ingredientes = relationship(
-    back_populates="receita"
-)
+ingredientes = relationship(back_populates="receita")
 ```
 
-Em `IngredienteNaReceita`:
+Em `Insumo`:
 
 ```python
-receita = relationship(
-    back_populates="ingredientes"
-)
+ingredientes = relationship(back_populates="insumo")
+```
+
+Em `Ingrediente`:
+
+```python
+insumo = relationship(back_populates="ingredientes")
+receita = relationship(back_populates="ingredientes")
 ```
 
 O `back_populates` informa ao SQLAlchemy qual é o atributo correspondente no outro lado da relação.
-
-O mesmo acontece entre `Ingrediente` e `IngredienteNaReceita`.
 
 Assim, podemos navegar pelos objetos:
 
@@ -335,7 +297,7 @@ r1.ingredientes
 e:
 
 ```python
-item.ingrediente
+item.insumo
 ```
 
 Por exemplo:
@@ -343,7 +305,7 @@ Por exemplo:
 ```python
 for item in r1.ingredientes:
     print(
-        item.ingrediente.nome,
+        item.insumo.nome,
         item.quantidade,
         item.unidade
     )
@@ -356,8 +318,8 @@ for item in r1.ingredientes:
 Depois de criar os objetos e estabelecer os relacionamentos:
 
 ```python
-ir1 = IngredienteNaReceita(
-    ingrediente=i1,
+ir1 = Ingrediente(
+    insumo=i1,
     receita=r1,
     quantidade=1,
     unidade="lata"
