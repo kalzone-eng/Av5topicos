@@ -255,11 +255,13 @@ O objetivo do projeto é demonstrar como modelar:
 Esse padrão é muito útil em modelos de culinária, cardápios, estoque e controle de materiais.
 
 
-Um insumo também possui uma relação reversa com as receitas e com suas associações:
+Um insumo também possui uma relação reversa com as associações que o usam:
 
 ```python
-receitas: Mapped[List["Ingrediente"]]
+ingredientes: Mapped[List["Ingrediente"]]
 ```
+
+Essa lista representa todos os vínculos de um insumo dentro das receitas.
 
 ---
 

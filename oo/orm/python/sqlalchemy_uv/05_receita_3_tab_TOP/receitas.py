@@ -12,23 +12,20 @@ class Receita(Base):
     tempo_preparo: Mapped[int] = mapped_column(Integer)
     modo_preparo: Mapped[str] = mapped_column(Text)
 
+    # "ingredientes" é uma lista de "Ingrediente"
+    # em "Ingredientes" existe um atributo chamado "receita" que
+    # aponta para a receita que ele pertence; por isso, 
+    # usamos o back_populates, para que o SQLAlchemy saiba que os dois atributos estão relacionados
     ingredientes: Mapped[List["Ingrediente"]] = relationship(back_populates="receita")
-
-'''
-a Receita tem uma lista de objetos IngredienteNaReceita. 
-Mas para o SQLAlchemy saber como montar essa lista automaticamente, 
-ele precisa saber qual é o "outro lado" dessa relação, 
-ou seja, qual atributo, dentro de IngredienteNaReceita, 
-aponta "de volta" para a Receita.
-Esse "outro lado" é o back_populates.'''
-   
+  
 
 class Insumo(Base):
     __tablename__ = "tabela_insumos"
     id: Mapped[int] = mapped_column(primary_key=True)
     nome: Mapped[str] = mapped_column(String(250))
 
-    # lista reversa
+    # de forma similar ao "ingredientes" da classe Receita...
+    # ... temos o "ingredientes" da classe Insumo
     ingredientes: Mapped[List["Ingrediente"]] = relationship(back_populates="insumo")
 
 class Ingrediente(Base):
