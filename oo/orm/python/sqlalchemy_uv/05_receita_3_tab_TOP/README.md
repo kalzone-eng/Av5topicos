@@ -1,32 +1,39 @@
 # 🍰 03-receita
 
-Exemplo didático de utilização do **SQLAlchemy ORM** com **MySQL**, demonstrando como representar receitas, ingredientes e seus relacionamentos utilizando classes Python.
+Exemplo didático de utilização do **SQLAlchemy ORM** com **MySQL** para representar a relação entre receitas, insumos e o vínculo de cada insumo dentro de uma receita.
 
-O projeto utiliza o **uv** para gerenciamento do ambiente virtual, dependências e execução da aplicação.
+O projeto utiliza o **uv** para gerenciar o ambiente virtual e as dependências.
 
 ## 📚 Sobre o projeto
 
-O exemplo possui três entidades principais:
+O modelo atual possui três entidades principais:
 
 * **Receita** — representa uma receita culinária.
-* **Ingrediente** — representa um ingrediente.
-* **IngredienteNaReceita** — representa a associação entre uma receita e um ingrediente, armazenando também quantidade e unidade.
+* **Insumo** — representa um item que pode ser usado em diversas receitas.
+* **Ingrediente** — representa a associação entre uma receita e um insumo, incluindo quantidade e unidade.
 
-O modelo pode ser representado da seguinte forma:
+A estrutura do relacionamento é:
 
 ```text
 Receita
    │
    │ 1:N
    ▼
-IngredienteNaReceita
+Ingrediente
    ▲
    │ N:1
    │
-Ingrediente
+Insumo
 ```
 
-`IngredienteNaReceita` funciona como uma **tabela associativa**, permitindo representar o relacionamento entre receitas e ingredientes e, ao mesmo tempo, armazenar informações adicionais sobre esse relacionamento.
+A classe `Ingrediente` funciona como uma **entidade de associação** com chave composta:
+
+* `receita_id` → identifica a receita;
+* `insumo_id` → identifica o insumo;
+* `quantidade` → quantidade usada na receita;
+* `unidade` → unidade de medida, como "lata", "kg" ou "colher de café".
+
+Esse desenho permite reutilizar o mesmo insumo em várias receitas e, ao mesmo tempo, guardar informações específicas de cada relação.
 
 Por exemplo:
 
@@ -48,15 +55,15 @@ Bolo de milho
 * **SQLAlchemy** — mapeamento objeto-relacional (ORM)
 * **PyMySQL** — driver para conexão com MySQL
 * **MySQL** — banco de dados
-* **uv** — gerenciamento de ambiente e dependências
+* **uv** — gerenciamento do ambiente e dependências
 
 ---
 
 ## 📦 Gerenciamento do projeto com `uv`
 
-Este projeto utiliza o **uv** para gerenciar o ambiente virtual e as dependências Python.
+Este projeto usa o `uv` para criar o ambiente virtual e instalar as dependências.
 
-As dependências do projeto estão declaradas no arquivo `pyproject.toml`:
+As dependências estão definidas em `pyproject.toml`:
 
 ```toml
 [project]
@@ -65,20 +72,18 @@ version = "0.1.0"
 requires-python = ">=3.12"
 
 dependencies = [
-    "pymysql>=1.1.0",
-    "sqlalchemy>=2.0.0",
+    "pymysql>=1.2.3",
+    "sqlalchemy>=2.0.54",
 ]
 ```
 
-O `uv` também mantém o arquivo `uv.lock`, que registra as versões resolvidas das dependências.
-
 ### Instalando o `uv`
 
-Caso ainda não tenha o `uv` instalado, consulte a documentação oficial:
+Se o `uv` ainda não estiver instalado, consulte:
 
 https://docs.astral.sh/uv/
 
-Depois de instalado, verifique a instalação com:
+Depois de instalar, confirme com:
 
 ```bash
 uv --version
@@ -88,31 +93,23 @@ uv --version
 
 ## 📥 Instalando as dependências
 
-Depois de clonar o projeto, entre no diretório e execute:
+No diretório do projeto, execute:
 
 ```bash
 uv sync
 ```
 
-O comando `uv sync` irá:
-
-1. criar o ambiente virtual `.venv`, caso ainda não exista;
-2. instalar as dependências definidas no `pyproject.toml`;
-3. utilizar o `uv.lock` para reproduzir as versões registradas.
-
-Não é necessário executar `pip install` manualmente.
+Esse comando cria o ambiente virtual `.venv`, instala as dependências e mantém a reprodução das versões do projeto.
 
 ---
 
 ## 🐬 Configuração do MySQL
 
-O código utiliza a seguinte URL de conexão:
+O código usa a seguinte string de conexão:
 
 ```python
 mysql+pymysql://root:root@localhost:3306/meubanco
 ```
-
-Isso corresponde a:
 
 | Configuração | Valor       |
 | ------------ | ----------- |
@@ -123,7 +120,7 @@ Isso corresponde a:
 | Porta        | `3306`      |
 | Database     | `meubanco`  |
 
-Antes de executar o programa, crie o banco de dados:
+Antes de executar o projeto, crie o banco:
 
 ```sql
 CREATE DATABASE meubanco;
@@ -131,77 +128,38 @@ CREATE DATABASE meubanco;
 
 ### ⚠️ Credenciais
 
-As credenciais utilizadas no exemplo são apenas para fins didáticos.
-
-Em uma aplicação real, evite deixar usuário e senha diretamente no código-fonte. Prefira utilizar variáveis de ambiente ou outra forma segura de configuração.
+As credenciais usadas no exemplo são apenas didáticas. Em uma aplicação real, prefira variáveis de ambiente ou arquivos de configuração seguros.
 
 ---
 
 ## ▶️ Executando o projeto
 
-Depois de instalar as dependências:
+A execução mais direta do exemplo atual é:
 
 ```bash
-uv sync
+uv run python receitas.py
 ```
 
-o projeto pode ser executado utilizando o `uv`.
-
-### Utilizando o script do projeto
-
-O `pyproject.toml` define o seguinte comando de entrada:
-
-```toml
-[project.scripts]
-03-receita = "03_receita:main"
-```
-
-Isso permite executar o projeto através de:
-
-```bash
-uv run 03-receita
-```
-
-Para que esse comando funcione, o módulo `03_receita` precisa possuir uma função `main()`.
-
-Por exemplo:
-
-```python
-def main():
-    # código da aplicação
-    ...
-
-
-if __name__ == "__main__":
-    main()
-```
-
-### Executando diretamente o módulo
-
-Também é possível executar o arquivo Python diretamente:
-
-```bash
-uv run python 03_receita.py
-```
+Esse arquivo cria as tabelas automaticamente e insere uma receita de exemplo com seus insumos e quantidades.
 
 ---
 
 ## 🗄️ Criação das tabelas
 
-O programa utiliza:
+O projeto utiliza:
 
 ```python
 Base.metadata.create_all(engine)
 ```
 
-para criar as tabelas definidas pelos modelos caso elas ainda não existam.
+para criar as tabelas caso elas ainda não existam.
 
 As tabelas criadas são:
 
 ```text
 tabela_receitas
+tabela_insumos
 tabela_ingredientes
-tabela_ingrediente_na_receita
 ```
 
 ---
@@ -210,7 +168,7 @@ tabela_ingrediente_na_receita
 
 ### `Receita`
 
-Representa uma receita:
+Representa uma receita culinária:
 
 ```python
 class Receita(Base):
@@ -220,6 +178,8 @@ class Receita(Base):
     nome: Mapped[str] = mapped_column(String(250))
     tempo_preparo: Mapped[int] = mapped_column(Integer)
     modo_preparo: Mapped[str] = mapped_column(Text)
+
+    ingredientes: Mapped[List["Ingrediente"]] = relationship(back_populates="receita")
 ```
 
 Cada receita possui:
@@ -227,27 +187,73 @@ Cada receita possui:
 * identificador;
 * nome;
 * tempo de preparo;
-* modo de preparo.
+* modo de preparo;
+* lista de ingredientes associados.
 
-Além disso, possui uma relação com `IngredienteNaReceita`:
+---
+
+### `Insumo`
+
+Representa um material ou item que pode aparecer em várias receitas:
 
 ```python
-ingredientes: Mapped[List["IngredienteNaReceita"]]
+class Insumo(Base):
+    __tablename__ = "tabela_insumos"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nome: Mapped[str] = mapped_column(String(250))
+
+    ingredientes: Mapped[List["Ingrediente"]] = relationship(back_populates="insumo")
 ```
+
+Cada insumo tem:
+
+* identificador;
+* nome;
+* relacionamento com as receitas em que é usado.
 
 ---
 
 ### `Ingrediente`
 
-Representa um ingrediente:
+Representa a ligação entre uma receita e um insumo, incluindo os dados específicos do relacionamento:
 
 ```python
 class Ingrediente(Base):
     __tablename__ = "tabela_ingredientes"
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-    nome: Mapped[str] = mapped_column(String(250))
+    insumo_id: Mapped[int] = mapped_column(ForeignKey("tabela_insumos.id"), primary_key=True)
+    receita_id: Mapped[int] = mapped_column(ForeignKey("tabela_receitas.id"), primary_key=True)
+
+    insumo: Mapped["Insumo"] = relationship(back_populates="ingredientes")
+    receita: Mapped["Receita"] = relationship(back_populates="ingredientes")
+
+    unidade: Mapped[str] = mapped_column(String(250))
+    quantidade: Mapped[float] = mapped_column(Float())
 ```
+
+Essa classe consegue representar, por exemplo, que a receita "Bolo de milho" usa:
+
+* 1 lata de milho;
+* 1 lata de leite;
+* 1 kg de açúcar;
+* 3 ovos;
+* 1 colher de café de fermento;
+* 0,5 lata de óleo.
+
+---
+
+## ✅ Objetivo do exemplo
+
+O objetivo do projeto é demonstrar como modelar:
+
+1. uma relação de muitos para muitos entre receitas e insumos;
+2. o uso de uma entidade associativa com atributos próprios;
+3. o funcionamento do SQLAlchemy com `relationship()` e `ForeignKey`;
+4. a criação automática do esquema no banco de dados.
+
+Esse padrão é muito útil em modelos de culinária, cardápios, estoque e controle de materiais.
+
 
 Um ingrediente também possui uma relação reversa com as receitas:
 
