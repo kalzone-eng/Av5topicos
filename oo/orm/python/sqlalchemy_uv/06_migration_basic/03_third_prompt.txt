@@ -1,0 +1,2 @@
+please convert the PostGreSQL usage
+to a MySql usage where is necessary

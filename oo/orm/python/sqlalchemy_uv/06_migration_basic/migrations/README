@@ -1,0 +1,2 @@
+As migrações ficam em `versions/`. Consulte `../README.md` para aplicar,
+criar e reverter migrations com Alembic.
