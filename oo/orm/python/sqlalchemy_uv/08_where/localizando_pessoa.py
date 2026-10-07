@@ -67,9 +67,13 @@ with Session(engine) as session:
             print("Pessoa inserida no banco de dados")
             
         if op == "4":
-            stmt = select(Pessoa)
-            pessoas = session.scalars(stmt).all()
+            # a classe que vamos acessar é a Pessoa
+            classe = select(Pessoa)
+            # vamos buscar todos os registros da tabela pessoas
+            pessoas = session.scalars(classe).all()
+            # percorrendo a lista de resultados...
             for pessoa in pessoas:
+                # mostramos os dados de cada pessoa
                 print(f"Nome: {pessoa.nome}, Email: {pessoa.email}, Telefone: {pessoa.telefone}")
             
         if op == "0":
