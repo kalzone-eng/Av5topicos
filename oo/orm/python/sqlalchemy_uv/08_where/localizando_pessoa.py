@@ -43,7 +43,8 @@ with Session(engine) as session:
             p4 = Pessoa(nome="Ana Paula",
                         email="ap@gmail.com",
                         telefone="47 98887777")
-            
+
+            # salvar todos de uma vez :-)
             session.add_all([p1, p2, p3, p4])
             session.commit()
             print("Banco de dados criado (se não existia), tabela criada (se não havia) e pessoa inserida no banco de dados")
@@ -51,8 +52,12 @@ with Session(engine) as session:
         if op == "2":
             n = input("Qual nome deseja buscar?")
 
-            stmt = select(Pessoa).where(Pessoa.nome.like(f"%{n}%"))
-            user = session.scalars(stmt).all()
+            # vamos especificar praticamente um SQL SELECT com WHERE, 
+            # usando a sintaxe do SQLAlchemy
+            sql = select(Pessoa).where(Pessoa.nome.like(f"%{n}%"))
+            # executar a consulta e obter os resultados
+            user = session.scalars(sql).all()
+            # percorrendo a lista de resultados...
             for pessoa in user:
                 print(f"Nome: {pessoa.nome}, Email: {pessoa.email}, Telefone: {pessoa.telefone}")
         
