@@ -1,8 +1,0 @@
-Executar o arquivo de testes:
-python -v test_lib_matematica.py
-
-Executar todos os arquivos test*.py:
-python discover
-
-Se não inserir o "unittest.main()" ao final dos testes:
-python -m unittest -v test_lib_matematica.py
