@@ -1,6 +1,0 @@
-1:"$Sreact.fragment"
-2:I[65010,["/_next/static/chunks/2v0wx-09_pwa_.js","/_next/static/chunks/12nfe1ntojbzf.js","/_next/static/chunks/0lnplpizh-nrd.js"],""]
-3:I[66169,["/_next/static/chunks/2v0wx-09_pwa_.js","/_next/static/chunks/12nfe1ntojbzf.js"],"OutletBoundary"]
-4:"$Sreact.suspense"
-0:{"rsc":["$","$1","c",{"children":[["$","div",null,{"className":"flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black","children":["$","main",null,{"className":"flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start","children":[["$","h1",null,{"className":"text-6xl font-bold tracking-tight text-center text-gray-900 dark:text-white sm:text-left","children":"Bem vindo ao NextJS!"}],["$","$L2",null,{"href":"/about","children":" Sobre "}],["$","$L2",null,{"href":"/history","children":" História "}]]}]}],[["$","script","script-0",{"src":"/_next/static/chunks/0lnplpizh-nrd.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"isPartial":false,"staleTime":300,"varyParams":null,"buildId":"VRXipmg2cSJ5zKkheK9j5"}
-5:null
