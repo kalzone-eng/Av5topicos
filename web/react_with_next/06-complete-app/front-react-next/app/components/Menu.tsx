@@ -11,6 +11,8 @@ export default function Menu() {
         <li><Link href="/listar_pessoas">Listar pessoas</Link></li>
         <li><Link href="/form_login">Login</Link></li>
         <li><Link href="/form_incluir_pessoa">Nova Pessoa</Link></li>
+        <li><Link href="/listar_avioes">Listar aviões</Link></li>
+        <li><Link href="/form_incluir_aviao">Novo Avião</Link></li>
 
       </ul>
     </nav>
