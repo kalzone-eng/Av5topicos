@@ -1,6 +1,0 @@
-create a test file to create three persons
-It will be necessary to declare
-some imports;
-you can use sqlite as default
-it is not necessary to use test tool,
-just a simple program

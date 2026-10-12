@@ -1,1 +1,0 @@
-# Pessoa e Celular com SQLAlchemy

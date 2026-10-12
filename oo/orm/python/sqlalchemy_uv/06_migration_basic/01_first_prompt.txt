@@ -1,6 +1,0 @@
-create a class Pessoa, 
-with attributes nome, email and telefone,
-all String(250).
-Use SQLAlchemy 2.x;
-SQLite database, but with option to connect
-in a PostGreSQL database
