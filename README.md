@@ -1,3 +1,0 @@
-# progs
-
-Code repo
